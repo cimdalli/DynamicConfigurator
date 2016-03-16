@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DynamicConfigurator")]
+[assembly: AssemblyTitle("ConfigurationServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DynamicConfigurator")]
+[assembly: AssemblyProduct("ConfigurationServer")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7f46fc4e-1c2c-4889-8f96-21a07ebc6ff5")]
+[assembly: Guid("c3803cb9-a69e-4f73-b7b4-bcfa32e8dbb6")]
 
 // Version information for an assembly consists of the following four values:
 //
