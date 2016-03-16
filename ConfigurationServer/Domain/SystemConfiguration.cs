@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ConfigurationServer
+namespace DynamicConfigurator.Server.Domain
 {
     public class SystemConfiguration
     {

@@ -2,7 +2,7 @@
 using Nancy;
 using Nancy.Hosting.Self;
 
-namespace ConfigurationServer
+namespace DynamicConfigurator.Server
 {
     class Program
     {

@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Configuration.Abstractions;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
-namespace ClientApplication
+namespace DynamicConfigurator.Client
 {
     public interface IConfigurationClient
     {
         T GetConfiguration<T>(string application, string environment = null);
 
-        object GetConfiguration(string application, string environment = null);
+        dynamic GetConfiguration(string application, string environment = null);
+
+        void SetConfiguration(string application, object data, string environment = null);
     }
 
     public class ConfigurationClient : IConfigurationClient
@@ -45,7 +50,12 @@ namespace ClientApplication
             {
                 path += $"/environment/{environment}";
             }
-            return _httpClient.GetAsync(path).Result.Content.ReadAsAsync<T>().Result;
+
+            var response = _httpClient.GetAsync(path).Result;
+            var content = response.Content.ReadAsStringAsync().Result;
+            var data = JsonConvert.DeserializeObject<T>(content);
+
+            return data;
         }
 
         public object GetConfiguration(string application, string environment = null)
@@ -53,6 +63,22 @@ namespace ClientApplication
             return GetConfiguration<object>(application, environment);
         }
 
+        public void SetConfiguration(string application, object data, string environment = null)
+        {
+            var path = $"application/{application}";
+            if (environment != null)
+            {
+                path += $"/environment/{environment}";
+            }
+
+            var response = _httpClient.PostAsync(path, data, new JsonMediaTypeFormatter()).Result;
+            var content = response.Content.ReadAsStringAsync().Result;
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception(content);
+            }
+        }
 
 
         private bool RegisterConfigurationClient(string configurationServerUrl)
@@ -77,12 +103,11 @@ namespace ClientApplication
         private bool RegisterConfigurationClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            return httpClient
-                .PostAsJsonAsync("register", new
-                {
-                    IP = "1.1.1.1",
-                    MachineName = "machine"
-                }).Result.IsSuccessStatusCode;
+            return httpClient.PostAsJsonAsync("register", new
+            {
+                IP = "1.1.1.1",
+                MachineName = "machine"
+            }).Result.IsSuccessStatusCode;
         }
 
         private HttpClient CreateHttpClient(Uri uri)

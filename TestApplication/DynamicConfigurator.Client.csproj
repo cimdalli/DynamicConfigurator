@@ -7,8 +7,8 @@
     <ProjectGuid>{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClientApplication</RootNamespace>
-    <AssemblyName>ClientApplication</AssemblyName>
+    <RootNamespace>DynamicConfigurator.Client</RootNamespace>
+    <AssemblyName>DynamicConfigurator.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

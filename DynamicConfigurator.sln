@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApplication", "TestApplication\ClientApplication.csproj", "{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Client", "TestApplication\DynamicConfigurator.Client.csproj", "{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationServer", "ConfigurationServer\ConfigurationServer.csproj", "{C3803CB9-A69E-4F73-B7B4-BCFA32E8DBB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Server", "ConfigurationServer\DynamicConfigurator.Server.csproj", "{C3803CB9-A69E-4F73-B7B4-BCFA32E8DBB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
