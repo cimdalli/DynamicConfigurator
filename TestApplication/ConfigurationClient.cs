@@ -19,10 +19,16 @@ namespace DynamicConfigurator.Client
 
     public class ConfigurationClient : IConfigurationClient
     {
-        HttpClient _httpClient;
+        private HttpClient _httpClient;
+        private readonly JsonSerializerSettings _jsonSerializerSettings;
 
         private ConfigurationClient()
         {
+            _jsonSerializerSettings = new JsonSerializerSettings
+            {
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
             var config = ConfigurationManager.Instance.AppSettings["ConfigurationServer"];
             if (!string.IsNullOrEmpty(config))
             {
@@ -53,7 +59,7 @@ namespace DynamicConfigurator.Client
 
             var response = _httpClient.GetAsync(path).Result;
             var content = response.Content.ReadAsStringAsync().Result;
-            var data = JsonConvert.DeserializeObject<T>(content);
+            var data = JsonConvert.DeserializeObject<T>(content, _jsonSerializerSettings);
 
             return data;
         }
