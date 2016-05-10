@@ -1,11 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Client", "TestApplication\DynamicConfigurator.Client.csproj", "{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9BF2AF5F-FA46-4148-86D1-29698F76C68E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Server", "ConfigurationServer\DynamicConfigurator.Server.csproj", "{C3803CB9-A69E-4F73-B7B4-BCFA32E8DBB6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3E05ED02-B975-4F37-9A98-8B893C13483A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Client.Test", "test\DynamicConfigurator.Client.Test\DynamicConfigurator.Client.Test.csproj", "{4EEEDFD1-F40C-4FC8-AF19-28FBB91940E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Server.Test", "test\DynamicConfigurator.Server.Test\DynamicConfigurator.Server.Test.csproj", "{B35ABE5E-BA8B-4B85-A1E2-4C6CA387CCBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Client", "src\DynamicConfigurator.Client\DynamicConfigurator.Client.csproj", "{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Client.Nancy", "src\DynamicConfigurator.Client.Nancy\DynamicConfigurator.Client.Nancy.csproj", "{19466619-5AB8-41C1-BD96-FAF727755418}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Common", "src\DynamicConfigurator.Common\DynamicConfigurator.Common.csproj", "{4B55AF9C-2746-4C9A-ACC8-9A4C669F5B94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfigurator.Server", "src\DynamicConfigurator.Server\DynamicConfigurator.Server.csproj", "{C3803CB9-A69E-4F73-B7B4-BCFA32E8DBB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +25,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4EEEDFD1-F40C-4FC8-AF19-28FBB91940E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EEEDFD1-F40C-4FC8-AF19-28FBB91940E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EEEDFD1-F40C-4FC8-AF19-28FBB91940E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EEEDFD1-F40C-4FC8-AF19-28FBB91940E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B35ABE5E-BA8B-4B85-A1E2-4C6CA387CCBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B35ABE5E-BA8B-4B85-A1E2-4C6CA387CCBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B35ABE5E-BA8B-4B85-A1E2-4C6CA387CCBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B35ABE5E-BA8B-4B85-A1E2-4C6CA387CCBA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19466619-5AB8-41C1-BD96-FAF727755418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19466619-5AB8-41C1-BD96-FAF727755418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19466619-5AB8-41C1-BD96-FAF727755418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19466619-5AB8-41C1-BD96-FAF727755418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B55AF9C-2746-4C9A-ACC8-9A4C669F5B94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B55AF9C-2746-4C9A-ACC8-9A4C669F5B94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B55AF9C-2746-4C9A-ACC8-9A4C669F5B94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B55AF9C-2746-4C9A-ACC8-9A4C669F5B94}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C3803CB9-A69E-4F73-B7B4-BCFA32E8DBB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C3803CB9-A69E-4F73-B7B4-BCFA32E8DBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3803CB9-A69E-4F73-B7B4-BCFA32E8DBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -24,5 +52,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4EEEDFD1-F40C-4FC8-AF19-28FBB91940E3} = {3E05ED02-B975-4F37-9A98-8B893C13483A}
+		{B35ABE5E-BA8B-4B85-A1E2-4C6CA387CCBA} = {3E05ED02-B975-4F37-9A98-8B893C13483A}
+		{CF0896E4-55CF-4BE5-8F5A-67A5EE82324E} = {9BF2AF5F-FA46-4148-86D1-29698F76C68E}
+		{19466619-5AB8-41C1-BD96-FAF727755418} = {9BF2AF5F-FA46-4148-86D1-29698F76C68E}
+		{4B55AF9C-2746-4C9A-ACC8-9A4C669F5B94} = {9BF2AF5F-FA46-4148-86D1-29698F76C68E}
+		{C3803CB9-A69E-4F73-B7B4-BCFA32E8DBB6} = {9BF2AF5F-FA46-4148-86D1-29698F76C68E}
 	EndGlobalSection
 EndGlobal
