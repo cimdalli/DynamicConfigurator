@@ -19,7 +19,7 @@ namespace DynamicConfigurator.Server.Module
             Get["/application/{application}"] = parameters =>
             {
                 var application = (string)parameters.application;
-                var environment = (string)Request.Query["environment"];
+                var environment = GetEnvironment();
                 var data = configurationManager.Get(application, environment);
 
                 if (data != null)
@@ -33,7 +33,7 @@ namespace DynamicConfigurator.Server.Module
             Post["/application/{application}"] = parameters =>
             {
                 var application = (string)parameters.application;
-                var environment = (string)Request.Query["environment"];
+                var environment = GetEnvironment();
                 var content = Request.Body.AsString();
                 var data = JObject.Parse(content);
 
@@ -41,6 +41,11 @@ namespace DynamicConfigurator.Server.Module
 
                 return HttpStatusCode.OK;
             };
+        }
+
+        private string GetEnvironment()
+        {
+            return (string)Request.Query["environment"] ?? (string)Request.Query["env"];
         }
     }
 }

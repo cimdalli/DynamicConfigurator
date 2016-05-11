@@ -1,4 +1,5 @@
-﻿using Nancy.Testing;
+﻿using Nancy.ModelBinding.DefaultBodyDeserializers;
+using Nancy.Testing;
 using Newtonsoft.Json.Linq;
 
 namespace DynamicConfigurator.Server.Test
@@ -7,7 +8,7 @@ namespace DynamicConfigurator.Server.Test
     {
         public static dynamic AsJson(this BrowserResponseBodyWrapper bodyWrapper)
         {
-            var response = bodyWrapper.AsString();
+            var response = bodyWrapper.Deserialize<string>(new JsonBodyDeserializer());
             return JObject.Parse(response);
         }
     }

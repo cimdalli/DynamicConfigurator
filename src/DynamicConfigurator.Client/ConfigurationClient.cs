@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using DynamicConfigurator.Common;
-using DynamicConfigurator.Common.Domain;
 using Newtonsoft.Json;
 
 namespace DynamicConfigurator.Client
@@ -46,7 +45,7 @@ namespace DynamicConfigurator.Client
             }
 
             var response = _httpClient.GetAsync(uri).Result;
-            var content = response.Content.ReadAsStringAsync().Result;
+            var content = response.Content.ReadAsAsync<string>().Result;
             var data = JsonConvert.DeserializeObject<T>(content, _jsonSerializerSettings);
 
             return data;
