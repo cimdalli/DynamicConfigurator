@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Nancy.Responses;
 using NUnit.Framework;
 
 namespace DynamicConfigurator.Client.Test.When_creating_a_config
@@ -7,37 +6,44 @@ namespace DynamicConfigurator.Client.Test.When_creating_a_config
     [TestFixture]
     public class that_is_a_new_config
     {
-        //public static Browser Server;
-
-        //BrowserResponse getEmptyConfigResponse;
-        //BrowserResponse setConfigResponse;
-        //BrowserResponse getNewCreatedConfigResponse;
-        private object _getNewCreatedConfig;
-        private SampleConfigData sampleConfig;
+        private object _nonExistConfig;
+        private SampleConfigData _getNewCreatedConfig;
+        private SampleConfigData _sampleConfig;
 
         [SetUp]
         public void SetUp()
         {
             var configurationClient = new ConfigurationClient(ApiTestFixture.ConfigurationServerUri);
-            sampleConfig = GenerateSampleConfigData();
 
-            configurationClient.SetConfiguration("application", sampleConfig);
+            _sampleConfig = GenerateSampleConfigData();
+
+            _nonExistConfig = configurationClient.GetConfiguration<object>("non-exist");
+
+            configurationClient.SetConfiguration("application", _sampleConfig);
 
             _getNewCreatedConfig = configurationClient.GetConfiguration<SampleConfigData>("application");
+        }
 
-            //sampleConfig = TestHelper.GetSampleConfig();
+        [Test]
+        public void getting_non_exist_config_should_be_empty()
+        {
+            _nonExistConfig.Should().BeNull();
+        }
 
-            //getEmptyConfigResponse = Server.Get("application/empty");
+        [Test]
+        public void getting_new_created_config_should_be_successfully()
+        {
+            _getNewCreatedConfig.Should().NotBeNull();
+        }
 
-            //setConfigResponse = Server.Post("application/new", context =>
-            //{
-            //    context.HttpRequest();
-            //    context.JsonBody(sampleConfig as object);
-            //});
+        [Test]
+        public void getting_new_created_config_should_have_correct_values()
+        {
+            var application = _getNewCreatedConfig.Application;
+            var mongoUrl = _getNewCreatedConfig.Persistence.Mongo.Url;
 
-            //getNewCreatedConfigResponse = Server.Get("application/new");
-
-            //getNewCreatedConfig = getNewCreatedConfigResponse.Body.AsJson();
+            application.Should().Be(_sampleConfig.Application);
+            mongoUrl.Should().Be(_sampleConfig.Persistence.Mongo.Url);
         }
 
         private SampleConfigData GenerateSampleConfigData()
@@ -54,35 +60,6 @@ namespace DynamicConfigurator.Client.Test.When_creating_a_config
                 },
                 ShutdownThreshold = 3
             };
-        }
-
-
-        [Test]
-        public void getting_non_exist_config_should_be_empty()
-        {
-            //getEmptyConfigResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        }
-
-        [Test]
-        public void setting_new_config_should_be_successfully()
-        {
-            //setConfigResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-
-        [Test]
-        public void getting_new_created_config_should_be_successfully()
-        {
-            _getNewCreatedConfig.Should().NotBeNull();
-        }
-
-        [Test]
-        public void getting_new_created_config_should_have_correct_values()
-        {
-            //string application = getNewCreatedConfig.application;
-            //string mongoUrl = getNewCreatedConfig.persistence.mongo.url;
-
-            //application.Should().Be(sampleConfig.Application);
-            //mongoUrl.Should().Be(sampleConfig.Persistence.Mongo.Url);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace DynamicConfigurator.Client
 
         public ConfigurationClient(string configurationServerUrl)
             : this(new Uri(configurationServerUrl)) { }
-        
+
 
         public ConfigurationClient(Uri configurationServerUri)
         {
@@ -36,7 +36,7 @@ namespace DynamicConfigurator.Client
         }
 
 
-        public T GetConfiguration<T>(string application, string environment = null) where T : class, IConfigData, new()
+        public T GetConfiguration<T>(string application, string environment = null)
         {
             var uri = new Uri($"application/{application}", UriKind.Relative);
             if (environment != null)
@@ -45,6 +45,12 @@ namespace DynamicConfigurator.Client
             }
 
             var response = _httpClient.GetAsync(uri).Result;
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return default(T);
+            }
+
             var content = response.Content.ReadAsAsync<string>().Result;
             var data = JsonConvert.DeserializeObject<T>(content, _jsonSerializerSettings);
 

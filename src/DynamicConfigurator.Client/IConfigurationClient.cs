@@ -11,7 +11,7 @@ namespace DynamicConfigurator.Client
 
         Uri ConfigurationServerUri { get; }
 
-        T GetConfiguration<T>(string application, string environment = null) where T : class, IConfigData, new();
+        T GetConfiguration<T>(string application, string environment = null);
 
         //object GetConfiguration(string application, string environment = null);
 
