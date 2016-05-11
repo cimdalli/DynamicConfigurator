@@ -1,5 +1,4 @@
-﻿using System;
-using DynamicConfigurator.Common.Configuration;
+﻿using DynamicConfigurator.Common.Configuration;
 using DynamicConfigurator.Server.Persistance;
 using Nancy;
 using Nancy.Bootstrapper;
