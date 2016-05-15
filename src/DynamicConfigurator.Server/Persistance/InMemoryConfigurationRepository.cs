@@ -4,7 +4,7 @@ namespace DynamicConfigurator.Server.Persistance
 {
     public class InMemoryConfigurationRepository : IConfigurationRepository
     {
-        readonly Dictionary<string, string> _repo;
+        private readonly Dictionary<string, string> _repo;
 
         public InMemoryConfigurationRepository()
         {

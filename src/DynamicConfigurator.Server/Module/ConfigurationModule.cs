@@ -1,5 +1,4 @@
-﻿using DynamicConfigurator.Common.Domain;
-using DynamicConfigurator.Server.Configuration;
+﻿using DynamicConfigurator.Server.Configuration;
 using Nancy;
 using Nancy.Extensions;
 using Newtonsoft.Json.Linq;
@@ -8,14 +7,8 @@ namespace DynamicConfigurator.Server.Module
 {
     public class ConfigurationModule : NancyModule
     {
-        private static readonly JObject DefaultSystemConfig = JObject.FromObject(new SystemConfiguration());
-
         public ConfigurationModule(ConfigurationManager configurationManager)
         {
-            //var systemConfiguration = configurationManager
-            //    .GetOrCreate("system", DefaultSystemConfig)
-            //    .ToObject<SystemConfiguration>();
-
             Get["/application/{application}"] = parameters =>
             {
                 var application = (string)parameters.application;
@@ -24,7 +17,7 @@ namespace DynamicConfigurator.Server.Module
 
                 if (data != null)
                 {
-                    return Response.AsJson(data.ToString());
+                    return Response.AsJson(data);
                 }
 
                 throw new ConfigNotFoundException(application, environment);

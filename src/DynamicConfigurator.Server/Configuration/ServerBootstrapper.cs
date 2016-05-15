@@ -1,9 +1,12 @@
 ﻿using DynamicConfigurator.Common.Configuration;
+using DynamicConfigurator.Common.Domain;
 using DynamicConfigurator.Server.Persistance;
 using Nancy;
 using Nancy.Bootstrapper;
+using Nancy.Serialization.JsonNet;
 using Nancy.TinyIoc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DynamicConfigurator.Server.Configuration
 {
@@ -13,7 +16,16 @@ namespace DynamicConfigurator.Server.Configuration
         {
             pipelines.EnableJsonErrorResponse(container.Resolve<IErrorMapper>());
 
+            CreateSystemConfig(container.Resolve<ConfigurationManager>());
+
             base.ApplicationStartup(container, pipelines);
+        }
+
+        private static void CreateSystemConfig(ConfigurationManager configurationManager)
+        {
+            var defaultSystemConfig = JObject.FromObject(new SystemConfiguration());
+
+            configurationManager.GetOrCreate("system", defaultSystemConfig);
         }
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
@@ -21,9 +33,21 @@ namespace DynamicConfigurator.Server.Configuration
             container.Register<InMemoryConfigurationRepository>();
             container.Register<ConfigurationManager>();
             container.Register<ServerErrorMapper>();
-            container.Register<JsonSerializer, CustomJsonSerializer>();
 
             base.ConfigureApplicationContainer(container);
+        }
+
+        protected override NancyInternalConfiguration InternalConfiguration
+        {
+            get
+            {
+                return NancyInternalConfiguration
+                      .WithOverrides(nic =>
+                      {
+                          nic.Serializers.Clear();
+                          nic.Serializers.Insert(0, typeof(JsonNetSerializer));
+                      });
+            }
         }
     }
 }

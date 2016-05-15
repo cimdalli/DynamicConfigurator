@@ -5,11 +5,11 @@ using Nancy.Hosting.Self;
 
 namespace DynamicConfigurator.Server
 {
-    public class DynamicConfiguratorServerSelfHost
+    public class SelfHost
     {
-        private static readonly ILog Logger = LogManager.GetLogger<DynamicConfiguratorServerSelfHost>();
+        private static readonly ILog Logger = LogManager.GetLogger<SelfHost>();
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var selfHost = Start();
             Console.ReadLine();

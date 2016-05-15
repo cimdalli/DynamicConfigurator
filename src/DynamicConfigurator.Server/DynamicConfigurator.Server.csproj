@@ -83,12 +83,11 @@
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="Configuration\ConfigNotFoundException.cs" />
     <Compile Include="Configuration\ServerErrorMapper.cs" />
-    <Compile Include="Configuration\CustomJsonSerializer.cs" />
     <Compile Include="Persistance\IConfigurationRepository.cs" />
     <Compile Include="Module\ConfigurationModule.cs" />
     <Compile Include="Persistance\InMemoryConfigurationRepository.cs" />
     <Compile Include="Configuration\ServerBootstrapper.cs" />
-    <Compile Include="DynamicConfiguratorServerSelfHost.cs" />
+    <Compile Include="SelfHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

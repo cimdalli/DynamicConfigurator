@@ -15,7 +15,7 @@ namespace DynamicConfigurator.Client.Test
         [OneTimeSetUp]
         public void SetUp()
         {
-            _configurationServerSelfHost = DynamicConfiguratorServerSelfHost.Start(ConfigurationServerUri);
+            _configurationServerSelfHost = SelfHost.Start(ConfigurationServerUri);
         }
 
         [OneTimeTearDown]
