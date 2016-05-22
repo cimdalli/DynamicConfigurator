@@ -36,6 +36,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="CsQuery, Version=1.3.5.124, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CsQuery.1.3.5-beta5\lib\net40\CsQuery.dll</HintPath>
       <Private>True</Private>
@@ -54,6 +58,10 @@
     </Reference>
     <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Bootstrappers.Autofac, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nancy.Bootstrappers.Autofac.1.4.1\lib\net40\Nancy.Bootstrappers.Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Nancy.Hosting.Self, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -92,6 +100,7 @@
     <Compile Include="When_creating_a_config\that_is_with_environment_data.cs" />
     <Compile Include="When_creating_a_config\that_is_a_new_config.cs" />
     <Compile Include="TestingExtensions.cs" />
+    <Compile Include="When_storing_configs\with_file_storage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -11,58 +11,58 @@ namespace DynamicConfigurator.Server.Test.When_creating_a_config
     {
         public static Browser Server;
 
-        BrowserResponse getEmptyConfigResponse;
-        BrowserResponse setConfigResponse;
-        BrowserResponse getNewCreatedConfigResponse;
-        private dynamic getNewCreatedConfigResult;
-        private dynamic sampleConfig;
+        private BrowserResponse _getEmptyConfigResponse;
+        private BrowserResponse _setConfigResponse;
+        private BrowserResponse _getNewCreatedConfigResponse;
+        private dynamic _getNewCreatedConfigResult;
+        private dynamic _sampleConfig;
 
         [SetUp]
         public void SetUp()
         {
             Server = new Browser(new ServerBootstrapper());
 
-            sampleConfig = TestHelper.GetSampleConfig();
+            _sampleConfig = TestHelper.GetSampleConfig();
 
-            getEmptyConfigResponse = Server.Get("application/empty");
+            _getEmptyConfigResponse = Server.Get("application/empty");
 
-            setConfigResponse = Server.Post("application/new", context =>
+            _setConfigResponse = Server.Post("application/new", context =>
             {
                 context.HttpRequest();
-                context.JsonBody(sampleConfig as object);
+                context.JsonBody(_sampleConfig as object);
             });
 
-            getNewCreatedConfigResponse = Server.Get("application/new");
+            _getNewCreatedConfigResponse = Server.Get("application/new");
 
-            getNewCreatedConfigResult = getNewCreatedConfigResponse.Body.AsJson();
+            _getNewCreatedConfigResult = _getNewCreatedConfigResponse.Body.AsJson();
         }
 
         [Test]
         public void getting_non_exist_config_should_be_empty()
         {
-            getEmptyConfigResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            _getEmptyConfigResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Test]
         public void setting_new_config_should_be_successfully()
         {
-            setConfigResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            _setConfigResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
         public void getting_new_created_config_should_be_successfully()
         {
-            getNewCreatedConfigResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            _getNewCreatedConfigResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
         public void getting_new_created_config_should_have_correct_values()
         {
-            string application = getNewCreatedConfigResult.application;
-            string mongoUrl = getNewCreatedConfigResult.persistence.mongo.url;
+            string application = _getNewCreatedConfigResult.application;
+            string mongoUrl = _getNewCreatedConfigResult.persistence.mongo.url;
 
-            application.Should().Be(sampleConfig.Application);
-            mongoUrl.Should().Be(sampleConfig.Persistence.Mongo.Url);
+            application.Should().Be(_sampleConfig.Application);
+            mongoUrl.Should().Be(_sampleConfig.Persistence.Mongo.Url);
         }
     }
 }

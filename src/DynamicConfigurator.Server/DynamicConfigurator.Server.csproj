@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
       <Private>True</Private>
@@ -51,6 +55,10 @@
     </Reference>
     <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Bootstrappers.Autofac, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nancy.Bootstrappers.Autofac.1.4.1\lib\net40\Nancy.Bootstrappers.Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Nancy.Hosting.Self, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -80,11 +88,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="ConfigurationService.cs" />
     <Compile Include="Configuration\ConfigNotFoundException.cs" />
+    <Compile Include="Configuration\ConfigurationSectionHandler.cs" />
+    <Compile Include="Configuration\ServerContainerBuilder.cs" />
     <Compile Include="Configuration\ServerErrorMapper.cs" />
+    <Compile Include="Configuration\ServerSettings.cs" />
+    <Compile Include="Configuration\TypeDescriptor.cs" />
+    <Compile Include="Configuration\TypeDescriptorExtensions.cs" />
     <Compile Include="Persistance\IConfigurationRepository.cs" />
     <Compile Include="Module\ConfigurationModule.cs" />
+    <Compile Include="Persistance\FileBasedConfigurationRepository.cs" />
     <Compile Include="Persistance\InMemoryConfigurationRepository.cs" />
     <Compile Include="Configuration\ServerBootstrapper.cs" />
     <Compile Include="SelfHost.cs" />

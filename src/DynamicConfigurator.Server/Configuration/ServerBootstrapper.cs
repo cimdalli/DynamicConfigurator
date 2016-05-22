@@ -1,40 +1,50 @@
-﻿using DynamicConfigurator.Common.Configuration;
+﻿using Autofac;
+using DynamicConfigurator.Common.Configuration;
 using DynamicConfigurator.Common.Domain;
-using DynamicConfigurator.Server.Persistance;
-using Nancy;
 using Nancy.Bootstrapper;
+using Nancy.Bootstrappers.Autofac;
 using Nancy.Serialization.JsonNet;
-using Nancy.TinyIoc;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace DynamicConfigurator.Server.Configuration
 {
-    public class ServerBootstrapper : DefaultNancyBootstrapper
+    public class ServerBootstrapper : AutofacNancyBootstrapper
     {
-        protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
+        private readonly ContainerBuilder _containerBuilder;
+
+        public ServerBootstrapper()
+            : this(new ServerContainerBuilder())
+        {
+        }
+
+        public ServerBootstrapper(ContainerBuilder containerBuilder)
+        {
+            _containerBuilder = containerBuilder;
+        }
+
+        protected override void ApplicationStartup(ILifetimeScope container, IPipelines pipelines)
         {
             pipelines.EnableJsonErrorResponse(container.Resolve<IErrorMapper>());
 
-            CreateSystemConfig(container.Resolve<ConfigurationManager>());
+            CreateSystemConfig(container.Resolve<ConfigurationService>());
 
             base.ApplicationStartup(container, pipelines);
         }
 
-        private static void CreateSystemConfig(ConfigurationManager configurationManager)
+
+        protected override void ConfigureApplicationContainer(ILifetimeScope existingContainer)
+        {
+            _containerBuilder.Update(existingContainer.ComponentRegistry);
+
+            base.ConfigureApplicationContainer(existingContainer);
+        }
+
+
+        private static void CreateSystemConfig(ConfigurationService configurationService)
         {
             var defaultSystemConfig = JObject.FromObject(new SystemConfiguration());
 
-            configurationManager.GetOrCreate("system", defaultSystemConfig);
-        }
-
-        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
-        {
-            container.Register<InMemoryConfigurationRepository>();
-            container.Register<ConfigurationManager>();
-            container.Register<ServerErrorMapper>();
-
-            base.ConfigureApplicationContainer(container);
+            configurationService.GetOrCreate("system", defaultSystemConfig);
         }
 
         protected override NancyInternalConfiguration InternalConfiguration

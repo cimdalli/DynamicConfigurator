@@ -11,27 +11,27 @@ namespace DynamicConfigurator.Server.Persistance
             _repo = new Dictionary<string, string>();
         }
 
-        public void Add(string key, string value)
+        public void Create(string key, string value)
         {
             _repo.Add(key, value);
         }
 
-        public string Get(string key)
+        public string Read(string key)
         {
             string value;
             _repo.TryGetValue(key, out value);
             return value;
         }
 
-        public bool Remove(string key)
-        {
-            return _repo.Remove(key);
-        }
-
         public void Update(string key, string value)
         {
-            _repo.Remove(key);
-            _repo.Add(key, value);
+            Delete(key);
+            Create(key, value);
+        }
+
+        public bool Delete(string key)
+        {
+            return _repo.Remove(key);
         }
     }
 }

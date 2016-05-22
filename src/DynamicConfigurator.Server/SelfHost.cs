@@ -2,6 +2,7 @@
 using Common.Logging;
 using DynamicConfigurator.Server.Configuration;
 using Nancy.Hosting.Self;
+using Newtonsoft.Json;
 
 namespace DynamicConfigurator.Server
 {
@@ -18,7 +19,7 @@ namespace DynamicConfigurator.Server
 
         public static NancyHost Start()
         {
-            var baseUrl = System.Configuration.Abstractions.ConfigurationManager.Instance.AppSettings["ConfigurationServer"];
+            var baseUrl = ServerSettings.Current().App.BaseUrl;
 
             return Start(baseUrl);
         }

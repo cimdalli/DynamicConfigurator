@@ -1,44 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using DynamicConfigurator.Server.Configuration;
 using DynamicConfigurator.Server.Persistance;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace DynamicConfigurator.Server
 {
-    public class ConfigurationManager
+    public class ConfigurationService
     {
         private readonly IConfigurationRepository _configurationRepository;
+        private readonly Formatting _formatting;
         private readonly Dictionary<string, List<Action>> _subscribers;
         private const string EmptyObject = "{}";
 
-        public ConfigurationManager(IConfigurationRepository configurationRepository)
+        public ConfigurationService(IConfigurationRepository configurationRepository, ServerSettings settings)
         {
             _configurationRepository = configurationRepository;
+            _formatting = settings.App.FormattingValue;
             _subscribers = new Dictionary<string, List<Action>>();
         }
 
         public void Set(string application, JObject value, string environment = null)
         {
-            var configString = _configurationRepository.Get(application);
+            var configString = _configurationRepository.Read(application);
             var allConfig = JObject.Parse(configString ?? EmptyObject);
             allConfig[environment ?? "default"] = value;
 
             //new config
             if (configString == null)
             {
-                _configurationRepository.Add(application, allConfig.ToString(Formatting.None));
+                _configurationRepository.Create(application, allConfig.ToString(_formatting));
             }
             else
             {
-                _configurationRepository.Update(application, allConfig.ToString(Formatting.None));
+                _configurationRepository.Update(application, allConfig.ToString(_formatting));
                 ConfigChanged(application, environment);
             }
         }
 
         public JObject Get(string application, string environment = null)
         {
-            var configString = _configurationRepository.Get(application);
+            var configString = _configurationRepository.Read(application);
             if (configString != null)
             {
                 var allConfig = JObject.Parse(configString);

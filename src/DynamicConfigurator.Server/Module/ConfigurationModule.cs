@@ -7,13 +7,13 @@ namespace DynamicConfigurator.Server.Module
 {
     public class ConfigurationModule : NancyModule
     {
-        public ConfigurationModule(ConfigurationManager configurationManager)
+        public ConfigurationModule(ConfigurationService configurationService)
         {
             Get["/application/{application}"] = parameters =>
             {
                 var application = (string)parameters.application;
                 var environment = GetEnvironment();
-                var data = configurationManager.Get(application, environment);
+                var data = configurationService.Get(application, environment);
 
                 if (data != null)
                 {
@@ -30,7 +30,7 @@ namespace DynamicConfigurator.Server.Module
                 var content = Request.Body.AsString();
                 var data = JObject.Parse(content);
 
-                configurationManager.Set(application, data, environment);
+                configurationService.Set(application, data, environment);
 
                 return HttpStatusCode.OK;
             };
