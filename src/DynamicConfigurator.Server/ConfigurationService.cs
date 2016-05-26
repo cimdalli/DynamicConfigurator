@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DynamicConfigurator.Common.Domain;
 using DynamicConfigurator.Server.Configuration;
 using DynamicConfigurator.Server.Persistance;
 using Newtonsoft.Json;
@@ -11,21 +12,29 @@ namespace DynamicConfigurator.Server
     {
         private readonly IConfigurationRepository _configurationRepository;
         private readonly Formatting _formatting;
+        private readonly string _systemKey;
+        private readonly string _defaultKey;
         private readonly Dictionary<string, List<Action>> _subscribers;
         private const string EmptyObject = "{}";
+
 
         public ConfigurationService(IConfigurationRepository configurationRepository, ServerSettings settings)
         {
             _configurationRepository = configurationRepository;
             _formatting = settings.App.FormattingValue;
+            _systemKey = settings.App.SystemKey ?? "system";
+            _defaultKey = settings.App.DefaultKey ?? "default";
             _subscribers = new Dictionary<string, List<Action>>();
+
+            GetOrCreate(_systemKey, JObject.FromObject(new SystemConfiguration()));
         }
+
 
         public void Set(string application, JObject value, string environment = null)
         {
             var configString = _configurationRepository.Read(application);
             var allConfig = JObject.Parse(configString ?? EmptyObject);
-            allConfig[environment ?? "default"] = value;
+            allConfig[environment ?? _defaultKey] = value;
 
             //new config
             if (configString == null)
@@ -39,6 +48,7 @@ namespace DynamicConfigurator.Server
             }
         }
 
+
         public JObject Get(string application, string environment = null)
         {
             var configString = _configurationRepository.Read(application);
@@ -47,9 +57,9 @@ namespace DynamicConfigurator.Server
                 var allConfig = JObject.Parse(configString);
                 var defaultConfig = JObject.Parse(EmptyObject);
 
-                if (allConfig["default"] != null)
+                if (allConfig[_defaultKey] != null)
                 {
-                    defaultConfig = allConfig["default"].Value<JObject>();
+                    defaultConfig = allConfig[_defaultKey].Value<JObject>();
                 }
 
                 if (environment != null)
@@ -64,6 +74,13 @@ namespace DynamicConfigurator.Server
             return null;
         }
 
+
+        //public SystemConfiguration GetSystemConfiguration()
+        //{
+        //    return Get(_systemKey).ToObject<SystemConfiguration>();
+        //}
+
+
         public JObject GetOrCreate(string application, JObject defaultValue, string environment = null)
         {
             var returnValue = Get(application, environment);
@@ -76,10 +93,12 @@ namespace DynamicConfigurator.Server
             return returnValue;
         }
 
+
         public void Subscribe(string application, Action action)
         {
             Subscribe(application, null, action);
         }
+
 
         public void Subscribe(string application, string environment, Action action)
         {
@@ -93,6 +112,7 @@ namespace DynamicConfigurator.Server
             }
             actionList.Add(action);
         }
+
 
         public void ConfigChanged(string application, string environment)
         {
