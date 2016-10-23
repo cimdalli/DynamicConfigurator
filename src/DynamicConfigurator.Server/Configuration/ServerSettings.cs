@@ -28,9 +28,10 @@ namespace DynamicConfigurator.Server.Configuration
     public class AppSettings
     {
         public string BaseUrl { get; set; }
-
+        public string SystemKey { get; set; }
+        public string DefaultKey { get; set; }
+        public int ServerPort { get; set; }
         public string Formatting { get; set; }
-
         public Formatting FormattingValue
         {
             get

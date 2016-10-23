@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DynamicConfigurator.Common.Domain;
 using DynamicConfigurator.Server.Configuration;
 using DynamicConfigurator.Server.Persistance;
@@ -103,7 +104,7 @@ namespace DynamicConfigurator.Server
         public void Subscribe(string application, string environment, Action action)
         {
             List<Action> actionList;
-            string channel = application + (environment != null ? ("." + environment) : null);
+            var channel = CreateChannelName(application, environment);
 
             if (!_subscribers.TryGetValue(channel, out actionList))
             {
@@ -117,15 +118,17 @@ namespace DynamicConfigurator.Server
         public void ConfigChanged(string application, string environment)
         {
             List<Action> actionList;
+            var channel = CreateChannelName(application, environment);
 
-            if (environment != null && _subscribers.TryGetValue($"{application}.{environment}", out actionList))
+            if (_subscribers.TryGetValue(channel, out actionList))
             {
                 actionList.ForEach(action => action());
             }
-            else if (_subscribers.TryGetValue(application, out actionList))
-            {
-                actionList.ForEach(action => action());
-            }
+        }
+
+        private static string CreateChannelName(params string[] variables)
+        {
+            return string.Join(".", variables.Where(s => !string.IsNullOrEmpty(s)));
         }
     }
 }

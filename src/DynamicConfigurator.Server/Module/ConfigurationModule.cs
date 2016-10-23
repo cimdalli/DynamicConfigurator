@@ -11,6 +11,8 @@ namespace DynamicConfigurator.Server.Module
         {
             Get["/application/{application}"] = parameters =>
             {
+                var address = Request.UserHostAddress;
+                //var host = Request.UserHostName;
                 var application = (string)parameters.application;
                 var environment = GetEnvironment();
                 var data = configurationService.Get(application, environment);
