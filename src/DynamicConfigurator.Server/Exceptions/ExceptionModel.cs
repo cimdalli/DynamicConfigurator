@@ -1,6 +1,4 @@
-using System;
-
-namespace DynamicConfigurator.Common.Configuration
+namespace DynamicConfigurator.Server.Exceptions
 {
     public class ExceptionModel
     {
@@ -8,7 +6,7 @@ namespace DynamicConfigurator.Common.Configuration
         public string Source { get; set; }
         public string Type { get; set; }
 
-        public ExceptionModel(Exception exception)
+        public ExceptionModel(System.Exception exception)
         {
             Message = exception.Message;
             Source = exception.Source;

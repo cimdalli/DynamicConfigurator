@@ -57,21 +57,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\DictionaryBasedErrorMapper.cs" />
-    <Compile Include="Configuration\ExceptionModel.cs" />
-    <Compile Include="Configuration\ErrorStatusCodeHandler.cs" />
-    <Compile Include="Configuration\IErrorMapper.cs" />
-    <Compile Include="Configuration\PipelineExtensions.cs" />
-    <Compile Include="Domain\FormattedException.cs" />
-    <Compile Include="Domain\IConfigData.cs" />
-    <Compile Include="Domain\RegistrationInfo.cs" />
-    <Compile Include="Domain\SystemConfiguration.cs" />
-    <Compile Include="Configuration\ExceptionResponse.cs" />
-    <Compile Include="HttpUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace DynamicConfigurator.Common
+namespace DynamicConfigurator.Client
 {
     public static class HttpUtils
     {

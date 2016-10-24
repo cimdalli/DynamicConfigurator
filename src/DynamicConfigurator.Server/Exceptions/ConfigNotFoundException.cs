@@ -1,6 +1,4 @@
-﻿using DynamicConfigurator.Common.Domain;
-
-namespace DynamicConfigurator.Server.Configuration
+﻿namespace DynamicConfigurator.Server.Exceptions
 {
     public class ConfigNotFoundException : FormattedException
     {

@@ -44,6 +44,7 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationClient.cs" />
+    <Compile Include="HttpUtils.cs" />
     <Compile Include="IConfigData.cs" />
     <Compile Include="IConfigurationClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,12 +62,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DynamicConfigurator.Common\DynamicConfigurator.Common.csproj">
-      <Project>{4b55af9c-2746-4c9a-acc8-9a4c669f5b94}</Project>
-      <Name>DynamicConfigurator.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

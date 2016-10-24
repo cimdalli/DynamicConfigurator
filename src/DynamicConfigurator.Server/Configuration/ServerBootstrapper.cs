@@ -1,10 +1,8 @@
 ﻿using Autofac;
-using DynamicConfigurator.Common.Configuration;
-using DynamicConfigurator.Common.Domain;
+using DynamicConfigurator.Server.Exceptions;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Autofac;
 using Nancy.Serialization.JsonNet;
-using Newtonsoft.Json.Linq;
 
 namespace DynamicConfigurator.Server.Configuration
 {
@@ -12,8 +10,7 @@ namespace DynamicConfigurator.Server.Configuration
     {
         private readonly ContainerBuilder _containerBuilder;
 
-        public ServerBootstrapper()
-            : this(new ServerContainerBuilder())
+        public ServerBootstrapper() : this(new ServerContainerBuilder())
         {
         }
 
@@ -25,26 +22,13 @@ namespace DynamicConfigurator.Server.Configuration
         protected override void ApplicationStartup(ILifetimeScope container, IPipelines pipelines)
         {
             pipelines.EnableJsonErrorResponse(container.Resolve<IErrorMapper>());
-
-            CreateSystemConfig(container.Resolve<ConfigurationService>());
-
             base.ApplicationStartup(container, pipelines);
         }
-
 
         protected override void ConfigureApplicationContainer(ILifetimeScope existingContainer)
         {
             _containerBuilder.Update(existingContainer.ComponentRegistry);
-
             base.ConfigureApplicationContainer(existingContainer);
-        }
-
-
-        private static void CreateSystemConfig(ConfigurationService configurationService)
-        {
-            var defaultSystemConfig = JObject.FromObject(new SystemConfiguration());
-
-            configurationService.GetOrCreate("system", defaultSystemConfig);
         }
 
         protected override NancyInternalConfiguration InternalConfiguration

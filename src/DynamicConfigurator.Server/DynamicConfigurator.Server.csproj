@@ -90,13 +90,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationService.cs" />
-    <Compile Include="Configuration\ConfigNotFoundException.cs" />
     <Compile Include="Configuration\ConfigurationSectionHandler.cs" />
+    <Compile Include="Exceptions\PipelineExtensions.cs" />
     <Compile Include="Configuration\ServerContainerBuilder.cs" />
-    <Compile Include="Configuration\ServerErrorMapper.cs" />
+    <Compile Include="Exceptions\ServerErrorMapper.cs" />
     <Compile Include="Configuration\ServerSettings.cs" />
+    <Compile Include="Configuration\SystemConfig.cs" />
     <Compile Include="Configuration\TypeDescriptor.cs" />
     <Compile Include="Configuration\TypeDescriptorExtensions.cs" />
+    <Compile Include="Exceptions\ConfigNotFoundException.cs" />
+    <Compile Include="Exceptions\DictionaryBasedErrorMapper.cs" />
+    <Compile Include="Exceptions\ErrorStatusCodeHandler.cs" />
+    <Compile Include="Exceptions\ExceptionModel.cs" />
+    <Compile Include="Exceptions\ExceptionResponse.cs" />
+    <Compile Include="Exceptions\FormattedException.cs" />
+    <Compile Include="Exceptions\IErrorMapper.cs" />
     <Compile Include="Persistance\IConfigurationRepository.cs" />
     <Compile Include="Module\ConfigurationModule.cs" />
     <Compile Include="Persistance\FileBasedConfigurationRepository.cs" />
@@ -113,12 +121,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DynamicConfigurator.Common\DynamicConfigurator.Common.csproj">
-      <Project>{4b55af9c-2746-4c9a-acc8-9a4c669f5b94}</Project>
-      <Name>DynamicConfigurator.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

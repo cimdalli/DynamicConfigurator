@@ -6,7 +6,7 @@ namespace DynamicConfigurator.Server.Configuration
 {
     public static class TypeDescriptorExtensions
     {
-        public static T TryToCreate<T>(this TypeDescriptor descriptor)
+        public static T Create<T>(this TypeDescriptor descriptor)
         {
             var repositoryType = Type.GetType(descriptor.Type);
 

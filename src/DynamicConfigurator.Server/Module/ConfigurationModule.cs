@@ -1,4 +1,5 @@
 ﻿using DynamicConfigurator.Server.Configuration;
+using DynamicConfigurator.Server.Exceptions;
 using Nancy;
 using Nancy.Extensions;
 using Newtonsoft.Json.Linq;
@@ -11,11 +12,10 @@ namespace DynamicConfigurator.Server.Module
         {
             Get["/application/{application}"] = parameters =>
             {
-                var address = Request.UserHostAddress;
-                //var host = Request.UserHostName;
                 var application = (string)parameters.application;
                 var environment = GetEnvironment();
-                var data = configurationService.Get(application, environment);
+                var client = GetClient();
+                var data = configurationService.Get(application, environment, client);
 
                 if (data != null)
                 {
@@ -41,6 +41,11 @@ namespace DynamicConfigurator.Server.Module
         private string GetEnvironment()
         {
             return (string)Request.Query["environment"] ?? (string)Request.Query["env"];
+        }
+
+        private string GetClient()
+        {
+            return (string)Request.Query["client"];
         }
     }
 }

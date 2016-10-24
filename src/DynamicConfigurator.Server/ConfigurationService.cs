@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DynamicConfigurator.Common.Domain;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using DynamicConfigurator.Server.Configuration;
 using DynamicConfigurator.Server.Persistance;
 using Newtonsoft.Json;
@@ -15,7 +16,6 @@ namespace DynamicConfigurator.Server
         private readonly Formatting _formatting;
         private readonly string _systemKey;
         private readonly string _defaultKey;
-        private readonly Dictionary<string, List<Action>> _subscribers;
         private const string EmptyObject = "{}";
 
 
@@ -25,9 +25,6 @@ namespace DynamicConfigurator.Server
             _formatting = settings.App.FormattingValue;
             _systemKey = settings.App.SystemKey ?? "system";
             _defaultKey = settings.App.DefaultKey ?? "default";
-            _subscribers = new Dictionary<string, List<Action>>();
-
-            GetOrCreate(_systemKey, JObject.FromObject(new SystemConfiguration()));
         }
 
 
@@ -50,85 +47,80 @@ namespace DynamicConfigurator.Server
         }
 
 
-        public JObject Get(string application, string environment = null)
+        public JObject Get(string application, string environment = null, string client = null)
         {
             var configString = _configurationRepository.Read(application);
-            if (configString != null)
+            if (configString == null)
+                return null;
+
+            var allConfig = JObject.Parse(configString);
+            var defaultConfig = JObject.Parse(EmptyObject);
+
+            if (allConfig[_defaultKey] != null)
             {
-                var allConfig = JObject.Parse(configString);
-                var defaultConfig = JObject.Parse(EmptyObject);
+                defaultConfig = allConfig[_defaultKey].Value<JObject>();
+            }
 
-                if (allConfig[_defaultKey] != null)
-                {
-                    defaultConfig = allConfig[_defaultKey].Value<JObject>();
-                }
-
-                if (environment != null)
-                {
-                    var environmentConfig = allConfig[environment];
-                    defaultConfig.Merge(environmentConfig);
-                }
-
+            if (environment == null)
                 return defaultConfig;
-            }
 
-            return null;
+            var environmentConfig = allConfig[environment];
+            defaultConfig.Merge(environmentConfig);
+
+            return defaultConfig;
         }
 
-
-        //public SystemConfiguration GetSystemConfiguration()
-        //{
-        //    return Get(_systemKey).ToObject<SystemConfiguration>();
-        //}
-
-
-        public JObject GetOrCreate(string application, JObject defaultValue, string environment = null)
+        public void Subscribe(string application, string environment, string client)
         {
-            var returnValue = Get(application, environment);
+            var systemConfig = GetSystemConfig();
+            var key = CreateRegisterKey(application, environment);
+            List<string> clients;
 
-            if (returnValue == null)
+            if (systemConfig.RegisteredClients.TryGetValue(key, out clients))
             {
-                Set(application, defaultValue, environment);
-                returnValue = defaultValue;
+                if (!clients.Contains(client))
+                {
+                    clients.Add(client);
+                    SaveSystemConfig(systemConfig);
+                }
             }
-            return returnValue;
-        }
-
-
-        public void Subscribe(string application, Action action)
-        {
-            Subscribe(application, null, action);
-        }
-
-
-        public void Subscribe(string application, string environment, Action action)
-        {
-            List<Action> actionList;
-            var channel = CreateChannelName(application, environment);
-
-            if (!_subscribers.TryGetValue(channel, out actionList))
-            {
-                actionList = new List<Action>();
-                _subscribers[channel] = actionList;
-            }
-            actionList.Add(action);
         }
 
 
         public void ConfigChanged(string application, string environment)
         {
-            List<Action> actionList;
-            var channel = CreateChannelName(application, environment);
+            var systemConfig = GetSystemConfig();
+            var key = CreateRegisterKey(application, environment);
+            List<string> clients;
 
-            if (_subscribers.TryGetValue(channel, out actionList))
+            if (systemConfig.RegisteredClients.TryGetValue(key, out clients))
             {
-                actionList.ForEach(action => action());
+                clients.ForEach(client =>
+                {
+                    new HttpClient
+                    {
+                        BaseAddress = new Uri(client)
+                    }
+                    .PostAsync("notify", null);
+                });
             }
         }
 
-        private static string CreateChannelName(params string[] variables)
+        private static string CreateRegisterKey(params string[] variables)
         {
             return string.Join(".", variables.Where(s => !string.IsNullOrEmpty(s)));
+        }
+
+        private SystemConfig GetSystemConfig()
+        {
+            var systemConfig = Get(_systemKey) ?? JObject.FromObject(new SystemConfig());
+
+            return systemConfig.ToObject<SystemConfig>();
+        }
+
+        private void SaveSystemConfig(SystemConfig systemConfig)
+        {
+            Set(_systemKey, JObject.FromObject(systemConfig));
         }
     }
 }

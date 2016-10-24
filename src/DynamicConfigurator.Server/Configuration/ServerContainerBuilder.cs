@@ -1,12 +1,12 @@
 ﻿using Autofac;
+using DynamicConfigurator.Server.Exceptions;
 using DynamicConfigurator.Server.Persistance;
 
 namespace DynamicConfigurator.Server.Configuration
 {
     public class ServerContainerBuilder : ContainerBuilder
     {
-        public ServerContainerBuilder()
-            : this(ServerSettings.Current())
+        public ServerContainerBuilder() : this(ServerSettings.Current())
         {
         }
 
@@ -27,7 +27,7 @@ namespace DynamicConfigurator.Server.Configuration
 
             if (settings?.Component?.Repository != null)
             {
-                repository = settings.Component.Repository.TryToCreate<IConfigurationRepository>();
+                repository = settings.Component.Repository.Create<IConfigurationRepository>();
             }
 
             this.RegisterInstance(repository).AsImplementedInterfaces();

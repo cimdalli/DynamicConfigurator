@@ -1,5 +1,4 @@
 ﻿using System;
-using DynamicConfigurator.Common.Domain;
 
 namespace DynamicConfigurator.Client
 {

@@ -1,7 +1,7 @@
 ﻿using Common.Logging;
 using Nancy.Bootstrapper;
 
-namespace DynamicConfigurator.Common.Configuration
+namespace DynamicConfigurator.Server.Exceptions
 {
     public static class PipelineExtensions
     {
