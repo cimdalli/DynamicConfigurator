@@ -16,14 +16,14 @@ namespace DynamicConfigurator.Server
             selfHost.Dispose();
         }
 
-        public static NancyHost Start()
+        private static NancyHost Start()
         {
             var baseUrl = ServerSettings.Current().App.BaseUrl;
 
             return Start(baseUrl);
         }
 
-        public static NancyHost Start(string baseUrl)
+        private static NancyHost Start(string baseUrl)
         {
             return Start(new Uri(baseUrl));
         }

@@ -8,7 +8,7 @@ namespace DynamicConfigurator.Server.Configuration
 {
     public class ServerBootstrapper : AutofacNancyBootstrapper
     {
-        private readonly ContainerBuilder _containerBuilder;
+        private readonly ContainerBuilder containerBuilder;
 
         public ServerBootstrapper() : this(new ServerContainerBuilder())
         {
@@ -16,18 +16,22 @@ namespace DynamicConfigurator.Server.Configuration
 
         public ServerBootstrapper(ContainerBuilder containerBuilder)
         {
-            _containerBuilder = containerBuilder;
+            this.containerBuilder = containerBuilder;
         }
 
         protected override void ApplicationStartup(ILifetimeScope container, IPipelines pipelines)
         {
             pipelines.EnableJsonErrorResponse(container.Resolve<IErrorMapper>());
+
+            var service = container.Resolve<ConfigurationService>();
+            InitializeSystemConfig(service);
+
             base.ApplicationStartup(container, pipelines);
         }
 
         protected override void ConfigureApplicationContainer(ILifetimeScope existingContainer)
         {
-            _containerBuilder.Update(existingContainer.ComponentRegistry);
+            containerBuilder.Update(existingContainer.ComponentRegistry);
             base.ConfigureApplicationContainer(existingContainer);
         }
 
@@ -42,6 +46,12 @@ namespace DynamicConfigurator.Server.Configuration
                           nic.Serializers.Insert(0, typeof(JsonNetSerializer));
                       });
             }
+        }
+
+        private static void InitializeSystemConfig(ConfigurationService configurationService)
+        {
+            configurationService.SaveSystemConfig(
+                configurationService.GetSystemConfig());
         }
     }
 }

@@ -3,6 +3,7 @@
     public class TestHelper
     {
         public const string Environment = "environment";
+        public const string Client = "client";
 
         public static dynamic GetSampleConfig()
         {

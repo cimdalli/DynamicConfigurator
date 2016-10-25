@@ -1,9 +1,7 @@
 ﻿namespace DynamicConfigurator.Client.Test
 {
-    public class SampleConfigData : IConfigData
+    public class SampleConfigData 
     {
-        public string Version { get; set; }
-
         public string Application { get; set; }
 
         public PersistenceSettings Persistence { get; set; }

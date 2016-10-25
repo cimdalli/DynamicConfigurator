@@ -1,5 +1,4 @@
-﻿using DynamicConfigurator.Server.Configuration;
-using DynamicConfigurator.Server.Exceptions;
+﻿using DynamicConfigurator.Server.Exceptions;
 using Nancy;
 using Nancy.Extensions;
 using Newtonsoft.Json.Linq;
@@ -15,7 +14,7 @@ namespace DynamicConfigurator.Server.Module
                 var application = (string)parameters.application;
                 var environment = GetEnvironment();
                 var client = GetClient();
-                var data = configurationService.Get(application, environment, client);
+                var data = configurationService.GetConfig(application, environment, client);
 
                 if (data != null)
                 {
@@ -32,7 +31,7 @@ namespace DynamicConfigurator.Server.Module
                 var content = Request.Body.AsString();
                 var data = JObject.Parse(content);
 
-                configurationService.Set(application, data, environment);
+                configurationService.SetConfig(application, data, environment);
 
                 return HttpStatusCode.OK;
             };

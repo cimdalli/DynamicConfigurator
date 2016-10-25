@@ -2,9 +2,9 @@
 
 namespace DynamicConfigurator.Client.Nancy
 {
-    class ConfigurationModule : NancyModule
+    public class ConfigurationModule : NancyModule
     {
-        public ConfigurationModule(IConfigurationClient configurationClient)
+        public ConfigurationModule(IConfigurationClient configurationClient) : base("config")
         {
             Before.AddItemToEndOfPipeline(context =>
             {
@@ -15,7 +15,9 @@ namespace DynamicConfigurator.Client.Nancy
                 return context.Response;
             });
 
-            Post["update"] = parameters =>
+            Get["check"] = parameters => HttpStatusCode.OK;
+
+            Post["notify"] = parameters =>
             {
                 configurationClient.NotifyConfigHasChanged();
 

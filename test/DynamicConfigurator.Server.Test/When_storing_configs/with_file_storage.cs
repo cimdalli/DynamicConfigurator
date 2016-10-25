@@ -11,10 +11,10 @@ namespace DynamicConfigurator.Server.Test.When_storing_configs
     [TestFixture]
     public class with_file_storage
     {
-        public static Browser Server;
-        private dynamic _sampleConfig;
-        private bool _isFileExist;
-        private string _createdFilePath;
+        private static Browser _server;
+        private dynamic sampleConfig;
+        private bool isFileExist;
+        private string createdFilePath;
 
         [SetUp]
         public void SetUp()
@@ -24,34 +24,34 @@ namespace DynamicConfigurator.Server.Test.When_storing_configs
 
             containerBuilder.RegisterType<FileBasedConfigurationRepository>().AsImplementedInterfaces();
 
-            Server = new Browser(new ServerBootstrapper(containerBuilder));
+            _server = new Browser(new ServerBootstrapper(containerBuilder));
 
-            _sampleConfig = TestHelper.GetSampleConfig();
+            sampleConfig = TestHelper.GetSampleConfig();
 
-            Server.Post($"application/{applicationName}", context =>
+            _server.Post($"application/{applicationName}", context =>
             {
                 context.HttpRequest();
-                context.JsonBody(_sampleConfig as object);
+                context.JsonBody(sampleConfig as object);
             });
 
-            _createdFilePath = Path.Combine(Directory.GetCurrentDirectory(), FileBasedConfigurationRepository.ConfigFolder, applicationName);
+            createdFilePath = Path.Combine(Directory.GetCurrentDirectory(), FileBasedConfigurationRepository.ConfigFolder, applicationName);
 
-            _isFileExist = File.Exists(_createdFilePath);
+            isFileExist = File.Exists(createdFilePath);
         }
 
         [TearDown]
         public void TearDown()
         {
-            if (File.Exists(_createdFilePath))
+            if (File.Exists(createdFilePath))
             {
-                File.Delete(_createdFilePath);
+                File.Delete(createdFilePath);
             }
         }
 
         [Test]
         public void config_file_should_be_created()
         {
-            _isFileExist.Should().BeTrue();
+            isFileExist.Should().BeTrue();
         }
     }
 }

@@ -96,10 +96,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StubHost.cs" />
     <Compile Include="TestHelper.cs" />
-    <Compile Include="When_creating_a_config\that_is_with_environment_data.cs" />
-    <Compile Include="When_creating_a_config\that_is_a_new_config.cs" />
+    <Compile Include="When_creating_a_config\with_environment_data.cs" />
+    <Compile Include="When_creating_a_config\without_environment_data.cs" />
     <Compile Include="TestingExtensions.cs" />
+    <Compile Include="When_registering_a_client\with_environment_data.cs" />
     <Compile Include="When_storing_configs\with_file_storage.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +116,7 @@
       <Name>DynamicConfigurator.Server</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

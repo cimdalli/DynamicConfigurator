@@ -30,13 +30,6 @@ namespace DynamicConfigurator.Server.Persistance
             var filePath = BasePath(key);
             return File.Exists(filePath) ? File.ReadAllText(filePath) : null;
         }
-
-        public void Update(string key, string value)
-        {
-            Delete(key);
-            Create(key, value);
-        }
-
         public bool Delete(string key)
         {
             var filePath = BasePath(key);

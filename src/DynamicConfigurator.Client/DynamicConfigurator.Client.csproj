@@ -53,9 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigNotFoundException.cs" />
     <Compile Include="ConfigurationClient.cs" />
+    <Compile Include="FormattedException.cs" />
     <Compile Include="HttpUtils.cs" />
-    <Compile Include="IConfigData.cs" />
     <Compile Include="IConfigurationClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace DynamicConfigurator.Client.Test.When_creating_a_config
@@ -6,47 +7,47 @@ namespace DynamicConfigurator.Client.Test.When_creating_a_config
     [TestFixture]
     public class that_is_a_new_config
     {
-        private object _nonExistConfig;
-        private SampleConfigData _getNewCreatedConfig;
-        private SampleConfigData _sampleConfig;
+        private Action gettingNonExistConfig;
+        private SampleConfigData getNewCreatedConfig;
+        private SampleConfigData sampleConfig;
 
         [SetUp]
         public void SetUp()
         {
             var configurationClient = new ConfigurationClient(ApiTestFixture.ConfigurationServerUri);
 
-            _sampleConfig = GenerateSampleConfigData();
+            sampleConfig = GenerateSampleConfigData();
 
-            _nonExistConfig = configurationClient.GetConfiguration<object>("non-exist");
+            gettingNonExistConfig = () => configurationClient.GetConfiguration<object>("non-exist");
 
-            configurationClient.SetConfiguration("application", _sampleConfig);
+            configurationClient.SetConfiguration("application", sampleConfig);
 
-            _getNewCreatedConfig = configurationClient.GetConfiguration<SampleConfigData>("application");
+            getNewCreatedConfig = configurationClient.GetConfiguration<SampleConfigData>("application");
         }
 
         [Test]
-        public void getting_non_exist_config_should_be_empty()
+        public void getting_non_exist_config_should_throw_exception()
         {
-            _nonExistConfig.Should().BeNull();
+            gettingNonExistConfig.ShouldThrow<ConfigNotFoundException>();
         }
 
         [Test]
         public void getting_new_created_config_should_be_successfully()
         {
-            _getNewCreatedConfig.Should().NotBeNull();
+            getNewCreatedConfig.Should().NotBeNull();
         }
 
         [Test]
         public void getting_new_created_config_should_have_correct_values()
         {
-            var application = _getNewCreatedConfig.Application;
-            var mongoUrl = _getNewCreatedConfig.Persistence.Mongo.Url;
+            var application = getNewCreatedConfig.Application;
+            var mongoUrl = getNewCreatedConfig.Persistence.Mongo.Url;
 
-            application.Should().Be(_sampleConfig.Application);
-            mongoUrl.Should().Be(_sampleConfig.Persistence.Mongo.Url);
+            application.Should().Be(sampleConfig.Application);
+            mongoUrl.Should().Be(sampleConfig.Persistence.Mongo.Url);
         }
 
-        private SampleConfigData GenerateSampleConfigData()
+        private static SampleConfigData GenerateSampleConfigData()
         {
             return new SampleConfigData
             {

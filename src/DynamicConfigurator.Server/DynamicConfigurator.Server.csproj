@@ -105,6 +105,8 @@
     <Compile Include="Exceptions\ExceptionResponse.cs" />
     <Compile Include="Exceptions\FormattedException.cs" />
     <Compile Include="Exceptions\IErrorMapper.cs" />
+    <Compile Include="Notification\HttpClientNotifier.cs" />
+    <Compile Include="Notification\IClientNotifier.cs" />
     <Compile Include="Persistance\IConfigurationRepository.cs" />
     <Compile Include="Module\ConfigurationModule.cs" />
     <Compile Include="Persistance\FileBasedConfigurationRepository.cs" />

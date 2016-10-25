@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DynamicConfigurator.Server.Exceptions;
+using DynamicConfigurator.Server.Notification;
 using DynamicConfigurator.Server.Persistance;
 
 namespace DynamicConfigurator.Server.Configuration
@@ -17,6 +18,7 @@ namespace DynamicConfigurator.Server.Configuration
             RegisterRepository(settings);
 
             this.RegisterType<ConfigurationService>().AsSelf();
+            this.RegisterType<HttpClientNotifier>().AsImplementedInterfaces();
             this.RegisterType<ServerErrorMapper>().AsImplementedInterfaces();
         }
 

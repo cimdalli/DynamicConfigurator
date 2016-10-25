@@ -10,21 +10,20 @@ namespace DynamicConfigurator.Client
 
     public class ConfigurationClient : IConfigurationClient
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient httpClient;
 
-        public Uri ConfigurationServerUri => _httpClient.BaseAddress;
         public event ConfigHasChangedEventHandler ConfigHasChanged;
+        public Uri ConfigurationServerUri => httpClient.BaseAddress;
 
 
         public ConfigurationClient(string configurationServerUrl)
-            : this(new Uri(configurationServerUrl)) { }
-
+            : this(new Uri(configurationServerUrl))
+        {
+        }
 
         public ConfigurationClient(Uri configurationServerUri)
         {
-            _httpClient = CreateHttpClient(configurationServerUri);
-
-            //_httpClient.PostAsJsonAsync("register", (string)null);
+            httpClient = CreateHttpClient(configurationServerUri);
         }
 
 
@@ -37,22 +36,17 @@ namespace DynamicConfigurator.Client
                 uri.AddQuery("environment", environment);
             }
 
-            var response = _httpClient.GetAsync(uri).Result;
+            var response = httpClient.GetAsync(uri).Result;
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-                return default(T);
+                throw new ConfigNotFoundException(application, environment);
             }
 
             var data = response.Content.ReadAsAsync<T>().Result;
 
             return data;
         }
-
-        //public object GetConfiguration(string application, string environment = null)
-        //{
-        //    return GetConfiguration<object>(application, environment);
-        //}
 
         public void SetConfiguration(string application, object data, string environment = null)
         {
@@ -63,7 +57,7 @@ namespace DynamicConfigurator.Client
                 uri.AddQuery("environment", environment);
             }
 
-            var response = _httpClient.PostAsync(uri, data, new JsonMediaTypeFormatter()).Result;
+            var response = httpClient.PostAsync(uri, data, new JsonMediaTypeFormatter()).Result;
 
             var content = response.Content.ReadAsStringAsync().Result;
 
