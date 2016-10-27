@@ -1,4 +1,5 @@
 ﻿using Nancy;
+using Nancy.ModelBinding;
 
 namespace DynamicConfigurator.Client.Nancy
 {
@@ -19,7 +20,9 @@ namespace DynamicConfigurator.Client.Nancy
 
             Post["notify"] = parameters =>
             {
-                configurationClient.NotifyConfigHasChanged();
+                var config = this.Bind<string>();
+
+                configurationClient.NotifyConfigHasChanged(config);
 
                 return HttpStatusCode.OK;
             };

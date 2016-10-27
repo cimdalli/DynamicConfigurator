@@ -6,8 +6,6 @@ using System.Net.Http.Headers;
 
 namespace DynamicConfigurator.Client
 {
-    public delegate void ConfigHasChangedEventHandler();
-
     public class ConfigurationClient : IConfigurationClient
     {
         private readonly HttpClient httpClient;
@@ -67,9 +65,9 @@ namespace DynamicConfigurator.Client
             }
         }
 
-        public void NotifyConfigHasChanged()
+        public void NotifyConfigHasChanged(string config)
         {
-            ConfigHasChanged?.Invoke();
+            ConfigHasChanged?.Invoke(config);
         }
 
         private static HttpClient CreateHttpClient(Uri uri)
