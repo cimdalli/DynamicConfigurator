@@ -1,7 +1,8 @@
-﻿using Nancy;
+﻿using DynamicConfigurator.Server.Exceptions;
+using Nancy;
 using Nancy.ErrorHandling;
 
-namespace DynamicConfigurator.Server.Exceptions
+namespace DynamicConfigurator.Server.Api.Exceptions
 {
     public class ErrorStatusCodeHandler : IStatusCodeHandler
     {

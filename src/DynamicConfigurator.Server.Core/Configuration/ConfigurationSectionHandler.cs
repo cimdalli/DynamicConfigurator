@@ -56,8 +56,5 @@ namespace DynamicConfigurator.Server.Configuration
 
             return defaultSettings;
         }
-
-
-
     }
 }

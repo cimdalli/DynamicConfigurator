@@ -1,6 +1,7 @@
-﻿using Nancy;
+﻿using DynamicConfigurator.Server.Exceptions;
+using Nancy;
 
-namespace DynamicConfigurator.Server.Exceptions
+namespace DynamicConfigurator.Server.Api.Exceptions
 {
     public class ServerErrorMapper : DictionaryBasedErrorMapper
     {

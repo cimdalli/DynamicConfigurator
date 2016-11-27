@@ -1,5 +1,6 @@
 ﻿using System;
 using DynamicConfigurator.Server;
+using DynamicConfigurator.Server.Api;
 using Nancy.Hosting.Self;
 using NUnit.Framework;
 

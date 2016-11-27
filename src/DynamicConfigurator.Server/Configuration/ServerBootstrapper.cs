@@ -1,10 +1,11 @@
 ﻿using Autofac;
-using DynamicConfigurator.Server.Exceptions;
+using DynamicConfigurator.Server.Api.Exceptions;
+using DynamicConfigurator.Server.Services;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Autofac;
 using Nancy.Serialization.JsonNet;
 
-namespace DynamicConfigurator.Server.Configuration
+namespace DynamicConfigurator.Server.Api.Configuration
 {
     public class ServerBootstrapper : AutofacNancyBootstrapper
     {

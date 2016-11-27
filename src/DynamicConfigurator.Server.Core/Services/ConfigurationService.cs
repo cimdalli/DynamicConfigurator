@@ -1,31 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DynamicConfigurator.Persistence;
 using DynamicConfigurator.Server.Configuration;
 using DynamicConfigurator.Server.Notification;
-using DynamicConfigurator.Server.Persistance;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace DynamicConfigurator.Server
+namespace DynamicConfigurator.Server.Services
 {
     public class ConfigurationService
     {
         private readonly IConfigurationRepository configurationRepository;
         private readonly IClientNotifier clientNotifier;
-        private readonly Formatting formatting;
         private readonly string systemKey;
         private readonly string defaultKey;
         private const string EmptyObject = "{}";
 
 
         public ConfigurationService(
-            IConfigurationRepository configurationRepository, 
-            IClientNotifier clientNotifier,
-            ServerSettings settings)
+            IConfigurationRepository configurationRepository,
+            IClientNotifier clientNotifier)
         {
             this.configurationRepository = configurationRepository;
             this.clientNotifier = clientNotifier;
-            formatting = settings.App.FormattingValue;
+            var settings = ServerSettings.Current();
+
             systemKey = settings.App.SystemKey ?? "system";
             defaultKey = settings.App.DefaultKey ?? "default";
         }
@@ -38,7 +37,7 @@ namespace DynamicConfigurator.Server
             allConfig[environment ?? defaultKey] = value;
 
             configurationRepository.Delete(application);
-            configurationRepository.Create(application, allConfig.ToString(formatting));
+            configurationRepository.Create(application, allConfig.ToString(Formatting.Indented));
 
             ConfigChanged(application, environment);
         }
@@ -58,11 +57,11 @@ namespace DynamicConfigurator.Server
                 defaultConfig = allConfig[defaultKey].Value<JObject>();
             }
 
-            if (environment == null)
-                return defaultConfig;
-
-            var environmentConfig = allConfig[environment];
-            defaultConfig.Merge(environmentConfig);
+            if (environment != null)
+            {
+                var environmentConfig = allConfig[environment];
+                defaultConfig.Merge(environmentConfig);
+            }
 
             if (client != null)
             {
@@ -97,10 +96,14 @@ namespace DynamicConfigurator.Server
                 systemConfig.RegisteredClients.Add(key, new List<string>());
             }
 
-            if (systemConfig.RegisteredClients[key].Contains(client))
+            var clients = systemConfig.RegisteredClients[key];
+
+            if (clients.Contains(client))
                 return;
 
-            systemConfig.RegisteredClients[key].Add(client);
+            clients.Add(client);
+            clients.Sort();
+
             SaveSystemConfig(systemConfig);
         }
 
@@ -108,12 +111,12 @@ namespace DynamicConfigurator.Server
         {
             var systemConfig = GetSystemConfig();
             var key = CreateRegisterKey(application, environment);
-            List<string> clients;
+            var clients = systemConfig.RegisteredClients
+                .Where(pair => pair.Key.StartsWith(key))
+                .SelectMany(pair => pair.Value)
+                .ToList();
 
-            if (systemConfig.RegisteredClients.TryGetValue(key, out clients))
-            {
-                clients.ForEach(clientNotifier.NotifyClient);
-            }
+            clients.ForEach(clientNotifier.NotifyClient);
         }
 
         private static string CreateRegisterKey(params string[] variables)

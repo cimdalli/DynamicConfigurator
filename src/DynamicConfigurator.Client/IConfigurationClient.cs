@@ -2,13 +2,13 @@
 
 namespace DynamicConfigurator.Client
 {
-    public delegate void ConfigHasChangedEventHandler(string config);
+    public delegate void ConfigHasChangedEventHandler();
 
     public interface IConfigurationClient
     {
         event ConfigHasChangedEventHandler ConfigHasChanged;
 
-        void NotifyConfigHasChanged(string config);
+        void NotifyConfigHasChanged();
 
         Uri ConfigurationServerUri { get; }
 

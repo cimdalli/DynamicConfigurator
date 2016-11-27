@@ -88,9 +88,9 @@
       <Project>{cf0896e4-55cf-4be5-8f5a-67a5ee82324e}</Project>
       <Name>DynamicConfigurator.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\DynamicConfigurator.Server\DynamicConfigurator.Server.csproj">
+    <ProjectReference Include="..\..\src\DynamicConfigurator.Server\DynamicConfigurator.Server.Api.csproj">
       <Project>{c3803cb9-a69e-4f73-b7b4-bcfa32e8dbb6}</Project>
-      <Name>DynamicConfigurator.Server</Name>
+      <Name>DynamicConfigurator.Server.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

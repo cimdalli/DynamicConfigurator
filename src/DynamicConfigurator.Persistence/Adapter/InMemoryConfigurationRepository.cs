@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DynamicConfigurator.Server.Persistance
+namespace DynamicConfigurator.Persistence.Adapter
 {
     public class InMemoryConfigurationRepository : IConfigurationRepository
     {

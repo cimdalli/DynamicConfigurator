@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using DynamicConfigurator.Server.Api.Configuration;
 using Nancy;
 
-namespace DynamicConfigurator.Server.Exceptions
+namespace DynamicConfigurator.Server.Api.Exceptions
 {
 
     public interface IDictionaryBasedErrorMapper : IErrorMapper

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace DynamicConfigurator.Server.Persistance
+namespace DynamicConfigurator.Persistence.Adapter
 {
     public class FileBasedConfigurationRepository : IConfigurationRepository
     {
@@ -30,13 +30,13 @@ namespace DynamicConfigurator.Server.Persistance
             var filePath = BasePath(key);
             return File.Exists(filePath) ? File.ReadAllText(filePath) : null;
         }
+
         public bool Delete(string key)
         {
             var filePath = BasePath(key);
             File.Delete(filePath);
             return !File.Exists(filePath);
         }
-
 
         private static string BasePath(string relativePath)
         {

@@ -1,6 +1,6 @@
 ﻿using Nancy;
 
-namespace DynamicConfigurator.Server.Exceptions
+namespace DynamicConfigurator.Server.Api.Exceptions
 {
     public interface IErrorMapper
     {

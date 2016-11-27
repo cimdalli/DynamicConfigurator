@@ -65,9 +65,9 @@ namespace DynamicConfigurator.Client
             }
         }
 
-        public void NotifyConfigHasChanged(string config)
+        public void NotifyConfigHasChanged()
         {
-            ConfigHasChanged?.Invoke(config);
+            ConfigHasChanged?.Invoke();
         }
 
         private static HttpClient CreateHttpClient(Uri uri)

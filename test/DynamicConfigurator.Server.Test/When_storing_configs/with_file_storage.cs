@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Autofac;
-using DynamicConfigurator.Server.Configuration;
-using DynamicConfigurator.Server.Persistance;
+using DynamicConfigurator.Persistence.Adapter;
+using DynamicConfigurator.Server.Api.Configuration;
 using FluentAssertions;
 using Nancy.Testing;
 using NUnit.Framework;

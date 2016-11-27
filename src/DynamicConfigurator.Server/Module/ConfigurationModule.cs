@@ -1,9 +1,10 @@
 ﻿using DynamicConfigurator.Server.Exceptions;
+using DynamicConfigurator.Server.Services;
 using Nancy;
 using Nancy.Extensions;
 using Newtonsoft.Json.Linq;
 
-namespace DynamicConfigurator.Server.Module
+namespace DynamicConfigurator.Server.Api.Module
 {
     public class ConfigurationModule : NancyModule
     {

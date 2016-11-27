@@ -20,9 +20,7 @@ namespace DynamicConfigurator.Client.Nancy
 
             Post["notify"] = parameters =>
             {
-                var config = this.Bind<string>();
-
-                configurationClient.NotifyConfigHasChanged(config);
+                configurationClient.NotifyConfigHasChanged();
 
                 return HttpStatusCode.OK;
             };

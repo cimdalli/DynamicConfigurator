@@ -1,9 +1,10 @@
 ﻿using System;
 using Common.Logging;
+using DynamicConfigurator.Server.Api.Configuration;
 using DynamicConfigurator.Server.Configuration;
 using Nancy.Hosting.Self;
 
-namespace DynamicConfigurator.Server
+namespace DynamicConfigurator.Server.Api
 {
     public class SelfHost
     {
@@ -18,9 +19,9 @@ namespace DynamicConfigurator.Server
 
         private static NancyHost Start()
         {
-            var baseUrl = ServerSettings.Current().App.BaseUrl;
+            var port = ServerSettings.Current().App.ServerPort;
 
-            return Start(baseUrl);
+            return Start($"http://localhost:{port}");
         }
 
         private static NancyHost Start(string baseUrl)

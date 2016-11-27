@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using DynamicConfigurator.Server.Api.Configuration;
 using DynamicConfigurator.Server.Configuration;
 using FluentAssertions;
 using Nancy;

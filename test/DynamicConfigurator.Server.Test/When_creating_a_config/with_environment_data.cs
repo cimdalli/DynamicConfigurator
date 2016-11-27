@@ -1,4 +1,5 @@
-﻿using DynamicConfigurator.Server.Configuration;
+﻿using DynamicConfigurator.Server.Api.Configuration;
+using DynamicConfigurator.Server.Configuration;
 using FluentAssertions;
 using Nancy;
 using Nancy.Testing;

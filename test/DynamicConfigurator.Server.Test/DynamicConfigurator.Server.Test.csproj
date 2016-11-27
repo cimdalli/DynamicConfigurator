@@ -111,9 +111,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DynamicConfigurator.Server\DynamicConfigurator.Server.csproj">
-      <Project>{c3803cb9-a69e-4f73-b7b4-bcfa32e8dbb6}</Project>
+    <ProjectReference Include="..\..\src\DynamicConfigurator.Persistence\DynamicConfigurator.Persistence.csproj">
+      <Project>{42883664-d95c-4609-996d-58e152119e09}</Project>
+      <Name>DynamicConfigurator.Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\DynamicConfigurator.Server.Core\DynamicConfigurator.Server.csproj">
+      <Project>{06287835-f597-4622-9347-8864b397ae5d}</Project>
       <Name>DynamicConfigurator.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\DynamicConfigurator.Server\DynamicConfigurator.Server.Api.csproj">
+      <Project>{c3803cb9-a69e-4f73-b7b4-bcfa32e8dbb6}</Project>
+      <Name>DynamicConfigurator.Server.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

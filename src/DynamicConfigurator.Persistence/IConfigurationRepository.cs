@@ -1,4 +1,4 @@
-﻿namespace DynamicConfigurator.Server.Persistance
+﻿namespace DynamicConfigurator.Persistence
 {
     public interface IConfigurationRepository
     {

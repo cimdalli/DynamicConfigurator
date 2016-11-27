@@ -1,19 +1,18 @@
 ﻿using Autofac;
-using DynamicConfigurator.Server.Exceptions;
+using DynamicConfigurator.Persistence;
+using DynamicConfigurator.Persistence.Adapter;
+using DynamicConfigurator.Server.Api.Exceptions;
+using DynamicConfigurator.Server.Configuration;
 using DynamicConfigurator.Server.Notification;
-using DynamicConfigurator.Server.Persistance;
+using DynamicConfigurator.Server.Services;
 
-namespace DynamicConfigurator.Server.Configuration
+namespace DynamicConfigurator.Server.Api.Configuration
 {
     public class ServerContainerBuilder : ContainerBuilder
     {
-        public ServerContainerBuilder() : this(ServerSettings.Current())
+        public ServerContainerBuilder()
         {
-        }
-
-        public ServerContainerBuilder(ServerSettings settings)
-        {
-            this.RegisterInstance(settings).SingleInstance();
+            var settings = ServerSettings.Current();
 
             RegisterRepository(settings);
 
