@@ -1,50 +1,61 @@
-﻿using MongoDB.Bson;
+﻿using DynamicConfigurator.Persistence.Mongo.Helper;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace DynamicConfigurator.Persistence.Adapter
+namespace DynamicConfigurator.Persistence.Mongo.Adapter
 {
     public class MongoConfigurationRepository : IConfigurationRepository
     {
-        public static string Database = "configs";
-        private readonly MongoClient _mongoClient;
+        public const string KeySelector = "_id";
+        public const string ValueSelector = "value";
+        public const string CollectionName = "configs";
+        private const string DatabaseName = "configs";
+        private const string Connection = "mongodb://localhost:27017";
 
-        public MongoConfigurationRepository(string connectionString, string database)
+        private readonly IMongoDatabase database;
+
+        public MongoConfigurationRepository(string connection, string databaseName)
         {
-            Database = database ?? Database;
-            connectionString = connectionString ?? "mongodb://localhost:27017";
-            _mongoClient = new MongoClient(MongoClientSettings.FromUrl(new MongoUrl(connectionString)));
+            var mongoClient = new MongoClient(MongoClientSettings.FromUrl(new MongoUrl(connection ?? Connection)));
+            database = mongoClient.GetDatabase(databaseName ?? DatabaseName);
+
+            InitCollection();
+        }
+
+        private void InitCollection()
+        {
+            if (!database.CollectionExists(CollectionName))
+            {
+                database.CreateCollection(CollectionName);
+            }
         }
 
         public void Create(string key, string value)
         {
-            _mongoClient.GetDatabase(Database).CreateCollection(key, new CreateCollectionOptions
+            var collection = database.GetCollection(CollectionName);
+
+            var document = new BsonDocument
             {
-                MaxDocuments = 1
-            });
+                [KeySelector] = key,
+                [ValueSelector] = BsonDocument.Parse(value)
+            };
 
-            var collection = GetCollection(key);
-            var document = BsonDocument.Parse(value);
-
-            collection.InsertOne(document);
+            collection.ReplaceOne(p => p[KeySelector] == key, document, new UpdateOptions { IsUpsert = true });
         }
 
         public string Read(string key)
         {
-            var collection = GetCollection(key);
-            return collection.ToBsonDocument().ToString();
+            var collection = database.GetCollection(CollectionName);
+            var document = collection.Find(x => x[KeySelector] == key).FirstOrDefault();
+
+            return document?[ValueSelector].ToString();
         }
 
         public bool Delete(string key)
         {
-            _mongoClient.GetDatabase(Database).DropCollection(key);
-            return true;
-        }
+            var collection = database.GetCollection(CollectionName);
 
-        private IMongoCollection<BsonDocument> GetCollection(string key)
-        {
-            return _mongoClient
-              .GetDatabase(Database)
-              .GetCollection<BsonDocument>(key);
+            return collection.DeleteOne(x => x[KeySelector] == key).IsAcknowledged;
         }
     }
 }

@@ -10,8 +10,12 @@ namespace DynamicConfigurator.Server.Configuration
         {
             var repositoryType = Type.GetType(descriptor.Type);
 
-            var allCtors = repositoryType
-                   .GetConstructors();
+            if (repositoryType == null)
+            {
+                throw new Exception($"Descriptor is not found: {descriptor.Type}");
+            }
+
+            var allCtors = repositoryType.GetConstructors();
 
             var suitableCtor =
                 allCtors

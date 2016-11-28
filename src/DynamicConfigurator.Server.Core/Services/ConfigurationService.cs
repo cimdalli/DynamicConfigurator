@@ -15,6 +15,7 @@ namespace DynamicConfigurator.Server.Services
         private readonly string systemKey;
         private readonly string defaultKey;
         private const string EmptyObject = "{}";
+        private const string KeyDelimiter = "-";
 
 
         public ConfigurationService(
@@ -121,7 +122,7 @@ namespace DynamicConfigurator.Server.Services
 
         private static string CreateRegisterKey(params string[] variables)
         {
-            return string.Join(".", variables.Where(s => !string.IsNullOrEmpty(s)));
+            return string.Join(KeyDelimiter, variables.Where(s => !string.IsNullOrEmpty(s)));
         }
     }
 }
