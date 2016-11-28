@@ -13,9 +13,12 @@ namespace DynamicConfigurator.Server.Configuration
             var allCtors = repositoryType
                    .GetConstructors();
 
-            var suitableCtor = allCtors
-                   .OrderByDescending(ctor => ctor.GetParameters().Length)
-                   .FirstOrDefault(ctor => ctor.GetParameters().All(info => descriptor.Args.AllKeys.Contains(info.Name)));
+            var suitableCtor =
+                allCtors
+                    .OrderByDescending(ctor => ctor.GetParameters().Length)
+                    .FirstOrDefault(ctor => ctor.GetParameters().All(info => descriptor.Args.AllKeys.Contains(info.Name)))
+                    ??
+                    allCtors.FirstOrDefault();
 
             var args = suitableCtor.GetParameters().Aggregate(new List<object>(), (list, info) =>
             {
