@@ -56,6 +56,18 @@
       <HintPath>..\..\packages\FluentAssertions.Json.0.1.1\lib\net45\FluentAssertions.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Bson.2.3.0\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.2.3.0\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.Core.2.3.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
       <Private>True</Private>
@@ -102,6 +114,7 @@
     <Compile Include="When_creating_a_config\without_environment_data.cs" />
     <Compile Include="TestingExtensions.cs" />
     <Compile Include="When_registering_a_client\with_environment_data.cs" />
+    <Compile Include="When_storing_configs\with_mongo.cs" />
     <Compile Include="When_storing_configs\with_file_storage.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +124,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\DynamicConfigurator.Persistence.Mongo\DynamicConfigurator.Persistence.Mongo.csproj">
+      <Project>{43cde872-0f01-4694-adbf-7aa1d22055b8}</Project>
+      <Name>DynamicConfigurator.Persistence.Mongo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\DynamicConfigurator.Persistence\DynamicConfigurator.Persistence.csproj">
       <Project>{42883664-d95c-4609-996d-58e152119e09}</Project>
       <Name>DynamicConfigurator.Persistence</Name>

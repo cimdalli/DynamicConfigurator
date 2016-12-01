@@ -1,5 +1,4 @@
-﻿using DynamicConfigurator.Server.Exceptions;
-using Nancy;
+﻿using Nancy;
 using Nancy.ErrorHandling;
 
 namespace DynamicConfigurator.Server.Api.Exceptions

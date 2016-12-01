@@ -105,6 +105,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DynamicConfigurator.Persistence.Mongo\DynamicConfigurator.Persistence.Mongo.csproj">
+      <Project>{43cde872-0f01-4694-adbf-7aa1d22055b8}</Project>
+      <Name>DynamicConfigurator.Persistence.Mongo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DynamicConfigurator.Persistence\DynamicConfigurator.Persistence.csproj">
       <Project>{42883664-d95c-4609-996d-58e152119e09}</Project>
       <Name>DynamicConfigurator.Persistence</Name>

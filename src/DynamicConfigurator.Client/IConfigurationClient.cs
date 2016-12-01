@@ -10,7 +10,7 @@ namespace DynamicConfigurator.Client
 
         void NotifyConfigHasChanged();
 
-        Uri ConfigurationServerUri { get; }
+        bool IsSameHost(string host);
 
         T GetConfiguration<T>(string application, string environment = null);
 

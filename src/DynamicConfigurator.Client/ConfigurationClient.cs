@@ -8,11 +8,10 @@ namespace DynamicConfigurator.Client
 {
     public class ConfigurationClient : IConfigurationClient
     {
-        private readonly HttpClient httpClient;
-
         public event ConfigHasChangedEventHandler ConfigHasChanged;
-        public Uri ConfigurationServerUri => httpClient.BaseAddress;
 
+        private readonly HttpClient httpClient;
+        
 
         public ConfigurationClient(string configurationServerUrl)
             : this(new Uri(configurationServerUrl))
@@ -23,7 +22,11 @@ namespace DynamicConfigurator.Client
         {
             httpClient = CreateHttpClient(configurationServerUri);
         }
-
+        
+        public bool IsSameHost(string host)
+        {
+            return httpClient.BaseAddress.Host == host;
+        }
 
         public T GetConfiguration<T>(string application, string environment = null)
         {
@@ -36,14 +39,12 @@ namespace DynamicConfigurator.Client
 
             var response = httpClient.GetAsync(uri).Result;
 
-            if (response.StatusCode != HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                throw new ConfigNotFoundException(application, environment);
+                return response.Content.ReadAsAsync<T>().Result;
             }
 
-            var data = response.Content.ReadAsAsync<T>().Result;
-
-            return data;
+            throw new Exception(response.Content.ReadAsStringAsync().Result);
         }
 
         public void SetConfiguration(string application, object data, string environment = null)

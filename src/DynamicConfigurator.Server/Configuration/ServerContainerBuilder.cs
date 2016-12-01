@@ -21,14 +21,13 @@ namespace DynamicConfigurator.Server.Api.Configuration
             this.RegisterType<ServerErrorMapper>().AsImplementedInterfaces();
         }
 
-
         private void RegisterRepository(ServerSettings settings)
         {
             IConfigurationRepository repository = new InMemoryConfigurationRepository();
 
             if (settings?.Component?.Repository != null)
             {
-                repository = settings.Component.Repository.Create<IConfigurationRepository>();
+                repository = (IConfigurationRepository)settings.Component.Repository.Create();
             }
 
             this.RegisterInstance(repository).AsImplementedInterfaces();
