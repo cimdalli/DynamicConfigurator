@@ -66,7 +66,6 @@
     <Compile Include="Configuration\TypeDescriptorExtensions.cs" />
     <Compile Include="Exceptions\ConfigNotFoundException.cs" />
     <Compile Include="Exceptions\ExceptionModel.cs" />
-    <Compile Include="Exceptions\FormattedException.cs" />
     <Compile Include="Notification\HttpClientNotifier.cs" />
     <Compile Include="Notification\IClientNotifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

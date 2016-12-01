@@ -1,9 +1,11 @@
-﻿namespace DynamicConfigurator.Server.Exceptions
+﻿using System;
+
+namespace DynamicConfigurator.Server.Exceptions
 {
-    public class ConfigNotFoundException : FormattedException
+    public class ConfigNotFoundException : Exception
     {
         public ConfigNotFoundException(string application, string environment)
-            : base("Config not found for application: {{{0}}} / environment: {{{1}}}", application, environment)
+            : base($"Config not found for application: {application} / environment: {environment}")
         {
         }
     }

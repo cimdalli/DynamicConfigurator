@@ -7,8 +7,7 @@ namespace DynamicConfigurator.Persistence.Adapter
         public const string ConfigFolder = "configs";
         private static string _configDirectory;
 
-        public FileBasedConfigurationRepository()
-            : this(Path.Combine(Directory.GetCurrentDirectory(), ConfigFolder))
+        public FileBasedConfigurationRepository() : this(Path.Combine(Directory.GetCurrentDirectory(), ConfigFolder))
         {
         }
 

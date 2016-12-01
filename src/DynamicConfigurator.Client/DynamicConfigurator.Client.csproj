@@ -53,7 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigNotFoundException.cs" />
     <Compile Include="ConfigurationClient.cs" />
     <Compile Include="FormattedException.cs" />
     <Compile Include="HttpUtils.cs" />

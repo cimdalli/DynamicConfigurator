@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration.Abstractions;
-using Newtonsoft.Json;
+﻿using System.Configuration.Abstractions;
 
 namespace DynamicConfigurator.Server.Configuration
 {

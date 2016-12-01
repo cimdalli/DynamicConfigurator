@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using DynamicConfigurator.Server.Api.Exceptions;
-using DynamicConfigurator.Server.Services;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Autofac;
 using Nancy.Serialization.JsonNet;
@@ -23,10 +22,6 @@ namespace DynamicConfigurator.Server.Api.Configuration
         protected override void ApplicationStartup(ILifetimeScope container, IPipelines pipelines)
         {
             pipelines.EnableJsonErrorResponse(container.Resolve<IErrorMapper>());
-
-            var service = container.Resolve<ConfigurationService>();
-            InitializeSystemConfig(service);
-
             base.ApplicationStartup(container, pipelines);
         }
 
@@ -40,19 +35,12 @@ namespace DynamicConfigurator.Server.Api.Configuration
         {
             get
             {
-                return NancyInternalConfiguration
-                      .WithOverrides(nic =>
-                      {
-                          nic.Serializers.Clear();
-                          nic.Serializers.Insert(0, typeof(JsonNetSerializer));
-                      });
+                return NancyInternalConfiguration.WithOverrides(nic =>
+                {
+                    nic.Serializers.Clear();
+                    nic.Serializers.Insert(0, typeof(JsonNetSerializer));
+                });
             }
-        }
-
-        private static void InitializeSystemConfig(ConfigurationService configurationService)
-        {
-            configurationService.SaveSystemConfig(
-                configurationService.GetSystemConfig());
         }
     }
 }

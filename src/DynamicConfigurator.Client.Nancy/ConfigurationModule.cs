@@ -1,5 +1,4 @@
 ﻿using Nancy;
-using Nancy.ModelBinding;
 
 namespace DynamicConfigurator.Client.Nancy
 {
@@ -7,14 +6,7 @@ namespace DynamicConfigurator.Client.Nancy
     {
         public ConfigurationModule(IConfigurationClient configurationClient) : base("config")
         {
-            Before.AddItemToEndOfPipeline(context =>
-            {
-                if (configurationClient.ConfigurationServerUri.Host != context.Request.UserHostAddress)
-                {
-                    return HttpStatusCode.Unauthorized;
-                }
-                return context.Response;
-            });
+            EnableAuthorization(configurationClient);
 
             Get["check"] = parameters => HttpStatusCode.OK;
 
@@ -24,6 +16,12 @@ namespace DynamicConfigurator.Client.Nancy
 
                 return HttpStatusCode.OK;
             };
+        }
+
+        private void EnableAuthorization(IConfigurationClient configurationClient)
+        {
+            Before.AddItemToEndOfPipeline(context => 
+                configurationClient.IsSameHost(context.Request.UserHostAddress) ? HttpStatusCode.Unauthorized : context.Response);
         }
     }
 }
