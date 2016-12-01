@@ -6,23 +6,27 @@ namespace DynamicConfigurator.Server.Configuration
 {
     public static class TypeDescriptorExtensions
     {
-        public static T Create<T>(this TypeDescriptor descriptor)
+        public static object Create(this TypeDescriptor descriptor)
         {
-            var repositoryType = Type.GetType(descriptor.Type);
+            var type = Type.GetType(descriptor.Type);
 
-            if (repositoryType == null)
+            if (type == null)
             {
                 throw new Exception($"Descriptor is not found: {descriptor.Type}");
             }
 
-            var allCtors = repositoryType.GetConstructors();
+            var allCtors = type.GetConstructors();
 
-            var suitableCtor =
-                allCtors
-                    .OrderByDescending(ctor => ctor.GetParameters().Length)
-                    .FirstOrDefault(ctor => ctor.GetParameters().All(info => descriptor.Args.AllKeys.Contains(info.Name)))
-                    ??
-                    allCtors.FirstOrDefault();
+            var suitableCtor = allCtors
+                .OrderByDescending(ctor => ctor.GetParameters().Length)
+                .FirstOrDefault(ctor => ctor.GetParameters().All(info => descriptor.Args.AllKeys.Contains(info.Name))) 
+                ?? 
+                allCtors.FirstOrDefault();
+
+            if (suitableCtor == null)
+            {
+                throw new Exception($"Suitable constructor is not found: {type.AssemblyQualifiedName}" );
+            }
 
             var args = suitableCtor.GetParameters().Aggregate(new List<object>(), (list, info) =>
             {
@@ -31,7 +35,7 @@ namespace DynamicConfigurator.Server.Configuration
                 return list;
             });
 
-            return (T)suitableCtor.Invoke(args.ToArray());
+            return suitableCtor.Invoke(args.ToArray());
         }
     }
 }

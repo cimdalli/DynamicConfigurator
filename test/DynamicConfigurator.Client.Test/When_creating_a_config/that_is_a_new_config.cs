@@ -28,7 +28,7 @@ namespace DynamicConfigurator.Client.Test.When_creating_a_config
         [Test]
         public void getting_non_exist_config_should_throw_exception()
         {
-            gettingNonExistConfig.ShouldThrow<ConfigNotFoundException>();
+            gettingNonExistConfig.ShouldThrow<Exception>();
         }
 
         [Test]
