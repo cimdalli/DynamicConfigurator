@@ -1,10 +1,9 @@
-import * as React from 'react';
+import * as React from 'react'
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
 
 import { connect } from 'react-redux'
-import { Dispatch } from "redux";
+import { Dispatch } from "redux"
 import { StoreState } from '../../reducers'
-import { Logout } from '../../actions'
-import { push } from 'react-router-redux'
 
 
 interface ConfigProps {
