@@ -86,6 +86,10 @@ namespace DynamicConfigurator.Server.Services
             SetConfig(systemKey, JObject.FromObject(systemConfig));
         }
 
+        public List<string> GetConfigKeys()
+        {
+            return configurationRepository.GetKeys();
+        }
 
         private void Subscribe(string application, string environment, string client)
         {

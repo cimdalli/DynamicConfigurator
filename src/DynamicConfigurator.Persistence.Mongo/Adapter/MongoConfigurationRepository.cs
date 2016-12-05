@@ -1,4 +1,6 @@
-﻿using DynamicConfigurator.Persistence.Mongo.Helper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DynamicConfigurator.Persistence.Mongo.Helper;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -49,6 +51,14 @@ namespace DynamicConfigurator.Persistence.Mongo.Adapter
             var document = collection.Find(x => x[KeySelector] == key).FirstOrDefault();
 
             return document?[ValueSelector].ToString();
+        }
+
+        public List<string> GetKeys()
+        {
+            var collection = database.GetCollection(CollectionName);
+            return collection.AsQueryable()
+                             .Select(document => (string)document[KeySelector])
+                             .ToList();
         }
 
         public bool Delete(string key)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace DynamicConfigurator.Persistence.Adapter
 {
@@ -21,6 +22,11 @@ namespace DynamicConfigurator.Persistence.Adapter
             string value;
             repo.TryGetValue(key, out value);
             return value;
+        }
+
+        public List<string> GetKeys()
+        {
+            return repo.Keys.ToList();
         }
 
         public bool Delete(string key)

@@ -10,6 +10,11 @@ namespace DynamicConfigurator.Server.Api.Module
     {
         public ConfigurationModule(ConfigurationService configurationService)
         {
+            Get["/all"] = parameters =>
+            {
+                return configurationService.GetConfigKeys();
+            };
+
             Get["/application/{application}"] = parameters =>
             {
                 var application = (string)parameters.application;

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace DynamicConfigurator.Persistence.Adapter
 {
@@ -28,6 +30,11 @@ namespace DynamicConfigurator.Persistence.Adapter
         {
             var filePath = BasePath(key);
             return File.Exists(filePath) ? File.ReadAllText(filePath) : null;
+        }
+
+        public List<string> GetKeys()
+        {
+            return Directory.GetFiles(_configDirectory).ToList();
         }
 
         public bool Delete(string key)
